@@ -1,19 +1,40 @@
+from sys import exit
+
 import pygame
 from pygame.locals import *
-from sys import exit
+
+from core.game_settings import screen_settings
+
+defaults = dict(screen_settings)
 
 pygame.init()
 
-SCREEN_RES = (512, 288)
-WINDOW_TITLE = "My Python Game"
-pygame.display.set_caption(WINDOW_TITLE)
-GAME_SCREEN = pygame.display.set_mode(SCREEN_RES)
+class Game():
+    def __init__(self):
+        self.ScreenSetup(dict(screen_settings))
+        
+        while True:
+            self.MainGameLoop()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            exit()
+    def MainGameLoop(self):
+        self.GetEvents()
+        self.Tick()
+        self.Draw()
 
-    pygame.display.update()
+    def Tick(self):
+        pass
 
+    def Draw(self):
+        pygame.display.update()
+
+    def GetEvents(self):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()
+
+    def ScreenSetup(self, screen_settings):
+        self.WINDOW_CAPTION = pygame.display.set_caption(screen_settings['WINDOW_TITLE'])
+        self.GAME_SCREEN    = pygame.display.set_mode(screen_settings['SCREEN_RES'])
+
+Game()
